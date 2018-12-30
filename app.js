@@ -3,12 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var expressValidator = require('express-validator');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var schools = require('./routes/schoolinsert');
+var schools = require('./routes/school');
 var thankyouindex = require('./routes/thankyou');
-
+var user = require('./routes/user');
 var app = express();
 
 // view engine setup
@@ -20,11 +20,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(expressValidator());
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', usersRouter.getlang);
 app.use('/schools',schools);
 app.use('/thank',thankyouindex);
+app.use('/user',user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
